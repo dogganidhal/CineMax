@@ -135,12 +135,7 @@ class UserRepositoryTest {
 			birthDate
 		));
 
-		assertThrows(AccountNotFoundException.class, new Executable() {
-			@Override
-			public void execute() throws Throwable {
-				repository.login("email-that-does-not-exist@f**k.com", "");
-			}
-		});
+		assertThrows(AccountNotFoundException.class, () -> repository.login("email-that-does-not-exist@f**k.com", ""));
 
 	}
 
@@ -148,7 +143,7 @@ class UserRepositoryTest {
 
 		byte[] array = new byte[length];
 		new Random().nextBytes(array);
-		return new String(array, Charset.forName("UTF-8"));
+		return new String(array, Charset.defaultCharset());
 
 	}
 

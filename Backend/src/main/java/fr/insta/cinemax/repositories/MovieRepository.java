@@ -4,7 +4,6 @@ import fr.insta.cinemax.interfaces.IMovieRepository;
 import fr.insta.cinemax.manager.ConnectionManager;
 import fr.insta.cinemax.mappers.MovieMapper;
 import fr.insta.cinemax.model.Movie;
-import fr.insta.cinemax.model.Room;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
