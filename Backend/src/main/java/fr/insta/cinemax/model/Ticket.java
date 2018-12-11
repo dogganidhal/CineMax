@@ -5,21 +5,21 @@ import java.util.Date;
 public class Ticket {
 
 	private Integer id;
-	private Movie movie;
+	private Session session;
 	private User user;
 	private Double price;
 	private Date createdDate;
 
-	public Ticket(Movie movie, User user, Double price, Date createdDate) {
-		this.movie = movie;
+	public Ticket(Session session, User user, Double price, Date createdDate) {
+		this.session = session;
 		this.user = user;
 		this.price = price;
 		this.createdDate = createdDate;
 	}
 
-	public Ticket(Integer id, Movie movie, User user, Double price, Date createdDate) {
+	public Ticket(Integer id, Session session, User user, Double price, Date createdDate) {
 		this.id = id;
-		this.movie = movie;
+		this.session = session;
 		this.user = user;
 		this.price = price;
 		this.createdDate = createdDate;
@@ -29,8 +29,8 @@ public class Ticket {
 		return id;
 	}
 
-	public Movie getMovie() {
-		return movie;
+	public Session getSession() {
+		return session;
 	}
 
 	public User getUser() {

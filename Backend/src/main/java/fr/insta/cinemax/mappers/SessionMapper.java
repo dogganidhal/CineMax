@@ -13,7 +13,8 @@ public class SessionMapper implements IEntityMapper<Session> {
 				resultSet.getInt("id"),
 				resultSet.getDate("start_date"),
 				null,
-				null
+				null,
+				resultSet.getInt("ticket_count")
 		);
 	}
 

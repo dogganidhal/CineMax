@@ -1,8 +1,8 @@
 package fr.insta.cinemax.repositories;
 
+import fr.insta.cinemax.exceptions.NotEnoughSpaceException;
 import fr.insta.cinemax.interfaces.ISessionRepository;
 import fr.insta.cinemax.manager.ConnectionManager;
-import fr.insta.cinemax.mappers.MovieMapper;
 import fr.insta.cinemax.mappers.SessionMapper;
 import fr.insta.cinemax.model.Movie;
 import fr.insta.cinemax.model.Room;
@@ -17,6 +17,46 @@ import java.util.List;
 
 
 public class SessionRepository implements ISessionRepository {
+
+	@Override
+	public Session getSessionById(Integer id) {
+
+		try {
+
+			Connection connection = ConnectionManager.getInstance().getConnection();
+			String selectStatement = "SELECT * FROM session WHERE id = ?;";
+			PreparedStatement preparedStatement = connection.prepareStatement(selectStatement, PreparedStatement.RETURN_GENERATED_KEYS);
+
+			preparedStatement.setInt(1, id);
+			ResultSet resultSet = preparedStatement.executeQuery();
+
+			if (resultSet.next()) {
+
+				MovieRepository movieRepository = new MovieRepository();
+				RoomRepository roomRepository = new RoomRepository();
+				SessionMapper mapper = new SessionMapper();
+
+				Movie movie = movieRepository.getMovieById(resultSet.getInt("movie_id"));
+				Room room = roomRepository.getRoomById(resultSet.getInt("room_id"));
+				Session session = mapper.map(resultSet);
+
+				return new Session(
+					session.getId(),
+					session.getStartDate(),
+					room,
+					movie,
+					session.getTicketCount()
+				);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+
+	}
 
 	@Override
 	public List<Session> getSessionsForMovie(Integer movieId) {
@@ -60,6 +100,38 @@ public class SessionRepository implements ISessionRepository {
 		}
 
 		return null;
+	}
+
+	@Override
+	public Session incrementTicketCountOfSession(Session session, Integer tickets) throws NotEnoughSpaceException {
+
+		try {
+
+			Connection connection = ConnectionManager.getInstance().getConnection();
+			String selectStatement = "UPDATE session SET ticket_count = ? WHERE id = ?;";
+			PreparedStatement preparedStatement = connection.prepareStatement(selectStatement);
+
+			preparedStatement.setInt(1, session.getTicketCount() + tickets);
+			preparedStatement.setInt(2, session.getId());
+
+			if (preparedStatement.execute()) {
+
+				return new Session(
+					session.getId(),
+					session.getStartDate(),
+					session.getRoom(),
+					session.getMovie(),
+					session.getTicketCount() + tickets
+				);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return session;
+
 	}
 
 }

@@ -111,12 +111,7 @@ class UserRepositoryTest {
 			birthDate
 		));
 
-		assertThrows(WrongPasswordException.class, new Executable() {
-			@Override
-			public void execute() throws Throwable {
-				repository.login(email, "WRONG_PASSWORD");
-			}
-		});
+		assertThrows(WrongPasswordException.class, () -> repository.login(email, "WRONG_PASSWORD"));
 
 	}
 
