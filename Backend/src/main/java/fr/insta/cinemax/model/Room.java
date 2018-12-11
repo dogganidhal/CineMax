@@ -1,10 +1,8 @@
 package fr.insta.cinemax.model;
 
-import com.sun.istack.internal.Nullable;
 
 public class Room {
 
-	@Nullable
 	private Integer id;
 	private String name;
 	private Integer capacity;

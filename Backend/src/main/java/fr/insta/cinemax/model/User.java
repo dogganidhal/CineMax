@@ -10,7 +10,6 @@ public class User {
 	private String lastName;
 	private String email;
 	private String password;
-
 	private Date birthDate;
 
 	public User(Integer id, String firstName, String lastName, String email, String password, Date birthDate) {

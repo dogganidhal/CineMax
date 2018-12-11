@@ -7,17 +7,17 @@ public class Ticket {
 	private Integer id;
 	private Movie movie;
 	private User user;
-	private Integer price;
+	private Double price;
 	private Date createdDate;
 
-	public Ticket(Movie movie, User user, Integer price, Date createdDate) {
+	public Ticket(Movie movie, User user, Double price, Date createdDate) {
 		this.movie = movie;
 		this.user = user;
 		this.price = price;
 		this.createdDate = createdDate;
 	}
 
-	public Ticket(Integer id, Movie movie, User user, Integer price, Date createdDate) {
+	public Ticket(Integer id, Movie movie, User user, Double price, Date createdDate) {
 		this.id = id;
 		this.movie = movie;
 		this.user = user;
@@ -37,7 +37,7 @@ public class Ticket {
 		return user;
 	}
 
-	public Integer getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
