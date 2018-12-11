@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface IMovieRepository {
 
+	Movie getMovieById(Integer id);
 	List<Movie> getMovies();
+	Movie create(Movie movie);
 
 }

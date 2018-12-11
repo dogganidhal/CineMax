@@ -9,18 +9,14 @@ public class UserMapper implements IEntityMapper<User> {
 
 	@Override
 	public User map(ResultSet resultSet) throws SQLException {
-		return this.map(resultSet, "");
-	}
-
-	@Override
-	public User map(ResultSet resultSet, String keyPrefix) throws SQLException {
 		return new User(
-			resultSet.getInt(keyPrefix + "id"),
-			resultSet.getString(keyPrefix + "first_name"),
-			resultSet.getString(keyPrefix + "last_name"),
-			resultSet.getString(keyPrefix + "email"),
-			resultSet.getString(keyPrefix + "password"),
-			resultSet.getDate(keyPrefix + "birth_date")
+			resultSet.getInt( "id"),
+			resultSet.getString("first_name"),
+			resultSet.getString( "last_name"),
+			resultSet.getString("email"),
+			resultSet.getString("password"),
+			resultSet.getDate("birth_date")
 		);
 	}
+
 }

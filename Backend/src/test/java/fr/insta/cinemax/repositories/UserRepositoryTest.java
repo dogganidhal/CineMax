@@ -5,6 +5,8 @@ import fr.insta.cinemax.exceptions.WrongPasswordException;
 import fr.insta.cinemax.model.User;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.nio.charset.Charset;
@@ -98,7 +100,7 @@ class UserRepositoryTest {
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date birthDate = dateFormat.parse("1990-11-11");
-		String email = this.generateRandomString(10) + "@mail.com";
+		final String email = this.generateRandomString(10) + "@mail.com";
 		String password = "qwerty2018";
 
 		this.repository.create(new User(
@@ -109,12 +111,12 @@ class UserRepositoryTest {
 			birthDate
 		));
 
-		try {
-			this.repository.login(email, "WRONG_PASSWORD");
-			fail();
-		} catch (AccountNotFoundException e) {
-			fail();
-		} catch (WrongPasswordException ignored) { }
+		assertThrows(WrongPasswordException.class, new Executable() {
+			@Override
+			public void execute() throws Throwable {
+				repository.login(email, "WRONG_PASSWORD");
+			}
+		});
 
 	}
 
@@ -123,7 +125,7 @@ class UserRepositoryTest {
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date birthDate = dateFormat.parse("1990-11-11");
-		String password = "qwerty2018";
+		final String password = "qwerty2018";
 
 		this.repository.create(new User(
 			this.generateRandomString(10),
@@ -133,12 +135,12 @@ class UserRepositoryTest {
 			birthDate
 		));
 
-		try {
-			this.repository.login("email-that-does-not-exist@f**k.com", password);
-			fail();
-		} catch (WrongPasswordException e) {
-			fail();
-		} catch (AccountNotFoundException ignored) { }
+		assertThrows(AccountNotFoundException.class, new Executable() {
+			@Override
+			public void execute() throws Throwable {
+				repository.login("email-that-does-not-exist@f**k.com", "");
+			}
+		});
 
 	}
 

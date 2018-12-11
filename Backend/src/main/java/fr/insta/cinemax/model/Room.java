@@ -18,6 +18,17 @@ public class Room {
 		this.capacity = capacity;
 	}
 
+	public Room(Integer id, String name) {
+		this.id = id;
+		this.name = name;
+		this.capacity = 100;
+	}
+
+	public Room(String name) {
+		this.name = name;
+		this.capacity = 100;
+	}
+
 	public Integer getId() {
 		return id;
 	}
