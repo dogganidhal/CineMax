@@ -1,9 +1,14 @@
 package fr.insta.cinemax.repositories;
 
+import fr.insta.cinemax.exceptions.AccountNotFoundException;
+import fr.insta.cinemax.exceptions.WrongPasswordException;
 import fr.insta.cinemax.interfaces.IUserRepository;
+import fr.insta.cinemax.manager.ConnectionManager;
 import fr.insta.cinemax.model.User;
 
-import java.util.List;
+import java.sql.Connection;
+import java.sql.SQLException;
+
 
 public class UserRepository implements IUserRepository {
 
@@ -13,22 +18,20 @@ public class UserRepository implements IUserRepository {
 	}
 
 	@Override
-	public User get(User user) {
-		return null;
-	}
+	public User login(String email, String password) throws AccountNotFoundException, WrongPasswordException {
 
-	@Override
-	public List<User> getAll() {
-		return null;
-	}
+		try {
 
-	@Override
-	public User update(User user) {
-		return null;
-	}
+			Connection connection = ConnectionManager.getInstance().getConnection();
 
-	@Override
-	public void delete(User user) {
+
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+
+		}
+
+		return null;
 
 	}
 
