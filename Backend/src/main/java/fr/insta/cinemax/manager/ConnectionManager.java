@@ -22,7 +22,7 @@ public class ConnectionManager {
 
 		if (ConnectionManager.instance == null)
 			ConnectionManager.instance = new ConnectionManager(
-				"jdbc:mysql://localhost:8889/cinemax",
+				"jdbc:mysql://localhost:8889/cinemax?useSSL=false",
 				"root",
 				"root"
 			);

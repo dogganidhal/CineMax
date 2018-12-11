@@ -7,6 +7,7 @@ import fr.insta.cinemax.model.User;
 
 public interface IUserRepository {
 
+	User getUserById(Integer id);
 	User create(User user);
 	User login(String email, String password) throws AccountNotFoundException, WrongPasswordException;
 

@@ -8,6 +8,5 @@ import java.util.List;
 public interface IMovieRepository {
 
 	List<Movie> getMovies();
-	Integer getAvailabililities(Integer movieId);
 
 }
