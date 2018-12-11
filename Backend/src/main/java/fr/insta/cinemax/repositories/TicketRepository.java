@@ -3,6 +3,7 @@ package fr.insta.cinemax.repositories;
 import fr.insta.cinemax.exceptions.NotEnoughSpaceException;
 import fr.insta.cinemax.interfaces.ITicketRepository;
 import fr.insta.cinemax.manager.ConnectionManager;
+import fr.insta.cinemax.manager.PriceManager;
 import fr.insta.cinemax.mappers.TicketMapper;
 import fr.insta.cinemax.model.Movie;
 import fr.insta.cinemax.model.Session;
@@ -23,15 +24,21 @@ import java.util.List;
 public class TicketRepository implements ITicketRepository {
 
 	@Override
-	public Ticket buyTicket(Integer userId, Integer sessionId) {
+	public Ticket buyTicket(Integer userId, Integer sessionId) throws NotEnoughSpaceException {
 
 		try {
+
+			UserRepository userRepository = new UserRepository();
+			SessionRepository sessionRepository = new SessionRepository();
+
+			User user = userRepository.getUserById(userId);
+			Session session = sessionRepository.getSessionById(sessionId);
 
 			Connection connection = ConnectionManager.getInstance().getConnection();
 			String insertStatement = "INSERT INTO ticket (session_id, user_id, price, created) VALUES (?,?,?,?);";
 			PreparedStatement preparedStatement = connection.prepareStatement(insertStatement);
 
-			Double price = 9.99;
+			Double price = PriceManager.getInstance().computePriceForUser(user);
 			Date creationDate = Date.from(Instant.now());
 
 			preparedStatement.setInt(1, sessionId);
@@ -42,16 +49,14 @@ public class TicketRepository implements ITicketRepository {
 			preparedStatement.executeUpdate();
 
 			ResultSet resultSet = preparedStatement.getGeneratedKeys();
-			UserRepository userRepository = new UserRepository();
-			SessionRepository sessionRepository = new SessionRepository();
+
 
 			if (resultSet.next()) {
 
-				User user = userRepository.getUserById(userId);
-				Session session = sessionRepository.getSessionById(sessionId);
+				session = sessionRepository.incrementTicketCountOfSession(session, 1);
 
 				return new Ticket(
-					resultSet.getInt("id"),
+					resultSet.getInt(1),
 					session,
 					user,
 					price,
@@ -73,11 +78,17 @@ public class TicketRepository implements ITicketRepository {
 
 		try {
 
+			UserRepository userRepository = new UserRepository();
+			SessionRepository sessionRepository = new SessionRepository();
+
+			User user = userRepository.getUserById(userId);
+			Session session = sessionRepository.getSessionById(sessionId);
+
 			Connection connection = ConnectionManager.getInstance().getConnection();
 			String insertStatement = "INSERT INTO ticket (session_id, user_id, price, created) VALUES (?,?,?,?);";
 			PreparedStatement preparedStatement = connection.prepareStatement(insertStatement);
 
-			Double price = 9.99;
+			Double price = PriceManager.getInstance().computePriceForUser(user);
 			Date creationDate = Date.from(Instant.now());
 
 			preparedStatement.setInt(1, sessionId);
@@ -88,12 +99,6 @@ public class TicketRepository implements ITicketRepository {
 			preparedStatement.executeUpdate();
 
 			ResultSet resultSet = preparedStatement.getGeneratedKeys();
-			UserRepository userRepository = new UserRepository();
-			SessionRepository sessionRepository = new SessionRepository();
-
-			User user = userRepository.getUserById(userId);
-			Session session = sessionRepository.getSessionById(sessionId);
-
 			List<Ticket> tickets = new ArrayList<>();
 
 			session = sessionRepository.incrementTicketCountOfSession(session, count);
@@ -101,7 +106,7 @@ public class TicketRepository implements ITicketRepository {
 			while (resultSet.next()) {
 
 				tickets.add(new Ticket(
-					resultSet.getInt("id"),
+					resultSet.getInt(1),
 					session,
 					user,
 					price,

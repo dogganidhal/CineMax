@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ITicketRepository {
 
-	Ticket buyTicket(Integer userId, Integer sessionId);
+	Ticket buyTicket(Integer userId, Integer sessionId) throws NotEnoughSpaceException;
 	List<Ticket> buyTickets(Integer userId, Integer sessionId, Integer count) throws NotEnoughSpaceException;
 	List<Ticket> ticketsForMovie(Integer movieId);
 	List<Ticket> ticketsForUser(Integer userId);
