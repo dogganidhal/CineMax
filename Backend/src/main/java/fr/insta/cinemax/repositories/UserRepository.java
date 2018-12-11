@@ -1,11 +1,11 @@
 package fr.insta.cinemax.repositories;
 
-import fr.insta.cinemax.interfaces.IRepository;
+import fr.insta.cinemax.interfaces.IUserRepository;
 import fr.insta.cinemax.model.User;
 
 import java.util.List;
 
-public class UserRepository implements IRepository<User> {
+public class UserRepository implements IUserRepository {
 
 	@Override
 	public User create(User user) {

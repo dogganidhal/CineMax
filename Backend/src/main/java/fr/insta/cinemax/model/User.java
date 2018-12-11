@@ -1,7 +1,13 @@
 package fr.insta.cinemax.model;
 
 import com.sun.istack.internal.Nullable;
+import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.*;
+
+
+@Entity
+@Table(name = "user")
 public class User {
 
 	@Nullable
@@ -19,22 +25,29 @@ public class User {
 		this.password = password;
 	}
 
+	@Id
+	@GeneratedValue(generator = "increment")
+	@GenericGenerator(name = "increment", strategy = "increment")
 	public Integer getId() {
 		return id;
 	}
 
+	@Column(name = "first_name")
 	public String getFirstName() {
 		return firstName;
 	}
 
+	@Column(name = "last_name")
 	public String getLastName() {
 		return lastName;
 	}
 
+	@Column(name = "email")
 	public String getEmail() {
 		return email;
 	}
 
+	@Column(name = "password")
 	public String getPassword() {
 		return password;
 	}
