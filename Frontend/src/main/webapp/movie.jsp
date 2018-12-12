@@ -1,26 +1,60 @@
 <%@ page import="fr.insta.cinemax.model.Session" %>
-<%@ page contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>CineMax Home</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-</head>
-<body>
-<nav class="navbar fixed-top navbar-light bg-light">
-    <a class="navbar-brand" href="#">
-        <img src="https://cdn.worldvectorlogo.com/logos/cinemax.svg" height="48" class="d-inline-block align-top" alt="">
-    </a>
-</nav>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="header.jsp"%>
 <jsp:useBean id="movie" type="fr.insta.cinemax.model.Movie" scope="request"/>
 <jsp:useBean id="sessions" type="java.util.List<fr.insta.cinemax.model.Session>" scope="request"/>
-<div style="margin-top: 90px">
-    <p>
-        <%= movie.toString() %>
-        <%= sessions.toString() %>
-    </p>
+<jsp:useBean id="unitPrice" type="java.lang.Double" scope="request"/>
+
+<title><%= movie.getTitle() %></title>
+
+<div>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Filmes</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><%= movie.getTitle()%></li>
+        </ol>
+    </nav>
+    <div class="row col-10 offset-md-1 border rounded" style="padding: 16px; border-color: darkgray; border-width: 1px">
+        <div class="col-3">
+            <img src="https://placeimg.com/240/240/any" alt="Card image cap">
+            <div style="padding-left: 16px; padding-top: 16px">
+                <H4><%= movie.getTitle() %></H4>
+                <span>Version : <b><%= movie.getVersion() %></b></span><br>
+                <span>Vision : <b><%= movie.getVision() %></b></span><br>
+                <span>Durée : <b><%= movie.getDuration().intValue() %></b></span><br>
+            </div>
+        </div>
+        <div class="col-9">
+            <h4>Prochaines sessions :</h4>
+            <table class="table border rounded">
+                <thead class="thead-light">
+                <tr>
+                    <th scope="col">Horaire</th>
+                    <th scope="col">Prix</th>
+                    <th scope="col">Place restantes</th>
+                    <th scope="col">Résérver</th>
+                </tr>
+                </thead>
+                <tbody>
+                <%
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE dd/MM/yyyy HH'h'mm");
+                    for (Session s: sessions) {
+                    	String startDate = dateFormat.format(s.getStartDate());
+                %>
+                <tr>
+                    <th scope="row"><%= startDate %></th>
+                    <td><%= unitPrice %>€</td>
+                    <td><%= s.getRoom().getCapacity() - s.getTicketCount() %></td>
+                    <td>+ 1</td>
+                </tr>
+                <%
+                    }
+                %>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 <footer class="pt-4 my-md-5 pt-md-5 border-top">
     <div class="row">

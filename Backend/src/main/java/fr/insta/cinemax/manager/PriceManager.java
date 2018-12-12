@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class PriceManager {
 
-	private static PriceManager instance;
+	private static PriceManager instance = new PriceManager();
 
 	public static PriceManager getInstance() {
 		return PriceManager.instance;
