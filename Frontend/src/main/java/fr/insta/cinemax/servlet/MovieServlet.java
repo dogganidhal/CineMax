@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 public class MovieServlet extends HttpServlet {
 
 	private IMovieRepository movieRepository = RepositoryFactory.getInstance().createMovieRepository();
-	private ISessionRepository sessionRepository = RepositoryFactory.getInstan-ce().createSessionRepository();
+	private ISessionRepository sessionRepository = RepositoryFactory.getInstance().createSessionRepository();
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
