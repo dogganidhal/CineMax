@@ -3,10 +3,13 @@ package fr.insta.cinemax.repositories;
 import fr.insta.cinemax.exceptions.NotEnoughSpaceException;
 import fr.insta.cinemax.interfaces.ISessionRepository;
 import fr.insta.cinemax.manager.ConnectionManager;
+import fr.insta.cinemax.manager.PriceManager;
 import fr.insta.cinemax.mappers.SessionMapper;
+import fr.insta.cinemax.mappers.UserMapper;
 import fr.insta.cinemax.model.Movie;
 import fr.insta.cinemax.model.Room;
 import fr.insta.cinemax.model.Session;
+import fr.insta.cinemax.model.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -108,8 +111,8 @@ public class SessionRepository implements ISessionRepository {
 		try {
 
 			Connection connection = ConnectionManager.getInstance().getConnection();
-			String selectStatement = "UPDATE session SET ticket_count = ? WHERE id = ?;";
-			PreparedStatement preparedStatement = connection.prepareStatement(selectStatement);
+			String updateStatement = "UPDATE session SET ticket_count = ? WHERE id = ?;";
+			PreparedStatement preparedStatement = connection.prepareStatement(updateStatement);
 
 			preparedStatement.setInt(1, session.getTicketCount() + tickets);
 			preparedStatement.setInt(2, session.getId());
@@ -131,6 +134,36 @@ public class SessionRepository implements ISessionRepository {
 		}
 
 		return session;
+
+	}
+
+	@Override
+	public Double getPriceForUser(Integer userId) {
+
+		try {
+
+			Connection connection = ConnectionManager.getInstance().getConnection();
+			String selectStatement = "SELECT * FROM user WHERE id = ?;";
+			PreparedStatement preparedStatement = connection.prepareStatement(selectStatement);
+
+			preparedStatement.setInt(1, userId);
+
+			ResultSet resultSet = preparedStatement.executeQuery();
+
+			if (resultSet.next()) {
+
+				UserMapper mapper = new UserMapper();
+				User user = mapper.map(resultSet);
+
+				return PriceManager.getInstance().computePriceForUser(user);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return null;
 
 	}
 

@@ -11,5 +11,6 @@ public interface ISessionRepository {
 	Session getSessionById(Integer id);
 	List<Session> getSessionsForMovie(Integer movieId);
 	Session incrementTicketCountOfSession(Session session, Integer tickets) throws NotEnoughSpaceException;
+	Double getPriceForUser(Integer userId);
 
 }
