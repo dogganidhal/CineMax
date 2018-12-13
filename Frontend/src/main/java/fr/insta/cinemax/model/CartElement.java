@@ -1,16 +1,22 @@
 package fr.insta.cinemax.model;
 
-import com.google.gson.annotations.SerializedName;
 
 public class CartElement {
 
-	@SerializedName("sessionId")
-	public Integer sessionId;
+	private Session session;
+	private Integer count;
 
-	@SerializedName("movieId")
-	public Integer movieId;
+	public CartElement(Session session, Integer count) {
+		this.session = session;
+		this.count = count;
+	}
 
-	@SerializedName("numberOfTickets")
-	public Integer numberOfTickets;
+	public Session getSession() {
+		return session;
+	}
+
+	public Integer getCount() {
+		return count;
+	}
 
 }

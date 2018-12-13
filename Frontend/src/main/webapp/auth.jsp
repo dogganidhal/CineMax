@@ -49,7 +49,6 @@
         </form>
 
     </div>
-
     <div class="col col-5 border-top border-bottom border-right rounded-right"
          style="padding: 16px; margin-top: 16px;border-color: darkgray; border-width: 1px;">
 

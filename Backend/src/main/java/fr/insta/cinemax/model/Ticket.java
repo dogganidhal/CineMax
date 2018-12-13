@@ -10,6 +10,12 @@ public class Ticket {
 	private Double price;
 	private Date createdDate;
 
+	public Ticket(Session session, User user, Double price) {
+		this.session = session;
+		this.user = user;
+		this.price = price;
+	}
+
 	public Ticket(Session session, User user, Double price, Date createdDate) {
 		this.session = session;
 		this.user = user;

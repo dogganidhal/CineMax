@@ -1,15 +1,11 @@
 package fr.insta.cinemax.servlet;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import fr.insta.cinemax.interfaces.IMovieRepository;
 import fr.insta.cinemax.interfaces.ISessionRepository;
 import fr.insta.cinemax.manager.HttpSessionManager;
-import fr.insta.cinemax.model.CartElement;
-import fr.insta.cinemax.model.Movie;
-import fr.insta.cinemax.model.Session;
-import fr.insta.cinemax.model.User;
+import fr.insta.cinemax.model.*;
 import fr.insta.cinemax.repositories.RepositoryFactory;
 
 import javax.servlet.RequestDispatcher;
@@ -19,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -53,17 +50,26 @@ public class MovieServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		String serializedCart = request.getParameter("cart");
-		List<CartElement> cart = HttpSessionManager.getCartFromSession(request.getSession());
-		List<CartElement> deserializedCart = new Gson()
-						.fromJson(serializedCart, new TypeToken<List<CartElement>>(){}.getType());
-		if (cart != null)
-			cart.addAll(deserializedCart);
-		else
-			cart = deserializedCart;
+		List<CartDTO> cartDTOs = new Gson().fromJson(serializedCart, new TypeToken<List<CartDTO>>(){}.getType());
 
+		Cart cart = HttpSessionManager.getCartFromSession(request.getSession());
+		User user = HttpSessionManager.getUserFromSession(request.getSession());
+		Double total = 0.0;
+		List<CartElement> cartElements = new ArrayList<>();
+
+		for (CartDTO cartDTO: cartDTOs) {
+			cartElements.add(new CartElement(
+							this.sessionRepository.getSessionById(cartDTO.getSessionId()),
+							cartDTO.getNumberOfTickets())
+			);
+			assert user != null;
+			total += cartDTO.getNumberOfTickets() * this.sessionRepository.getPriceForUser(user.getId());
+		}
+
+		cart = cart.merge(new Cart(cartElements, total));
 		HttpSessionManager.setCartForSession(request.getSession(), cart);
 
-		response.sendRedirect("/");
+		response.sendRedirect("/cart");
 
 	}
 }

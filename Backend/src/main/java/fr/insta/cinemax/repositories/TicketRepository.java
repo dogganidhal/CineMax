@@ -94,7 +94,7 @@ public class TicketRepository implements ITicketRepository {
 			preparedStatement.setInt(1, sessionId);
 			preparedStatement.setInt(2, userId);
 			preparedStatement.setDouble(3, price);
-			preparedStatement.setDate(4, new java.sql.Date(creationDate.getTime()));
+			preparedStatement.setDate(4, new java.sql.Date(new Date().getTime()));
 
 			preparedStatement.executeUpdate();
 

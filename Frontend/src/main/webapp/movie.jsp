@@ -48,9 +48,9 @@
                     <td><%= s.getRoom().getCapacity() - s.getTicketCount() %></td>
                     <td>
                         <div id="<%= s.getId()%>" class="btn-group stepper-view" role="group">
-                            <button type="button" class="btn btn-primary stepper-view-subtract">-1</button>
+                            <button type="button" class="btn btn-primary stepper-view-subtract">-</button>
                             <div style="margin: auto 16px;"><b class="stepper-view-value">0</b></div>
-                            <button type="button" class="btn btn-primary stepper-view-add">+1</button>
+                            <button type="button" class="btn btn-primary stepper-view-add">+</button>
                         </div>
                     </td>
                 </tr>
@@ -65,14 +65,16 @@
         <%
             if (currentUser != null) {
         %>
-        <form method="post">
+        <form method="post" style="margin-top: 24px">
             <input type="hidden" name="cart" id="cart">
             <button id="buy-button" type="submit" class="btn btn-primary btn-lg">Mettre dans mon panier</button>
         </form>
         <%
             } else {
         %>
-        <a href="/auth"><button type="button" class="btn btn-primary btn-lg">Connectez vous pour acheter</button></a>
+        <a method="post" style="margin-top: 24px" href="/auth">
+            <button type="button" class="btn btn-primary btn-lg">Connectez vous pour acheter</button>
+        </a>
         <%
             }
         %>
@@ -137,7 +139,6 @@
             let numberOfTickets = parseInt(stepperView.querySelector(".stepper-view-value").innerText);
             if (numberOfTickets > 0) {
                 cart.push({
-                    movieId: <%=movie.getId()%>,
                     sessionId: stepperView.id,
                     numberOfTickets: numberOfTickets
                 });

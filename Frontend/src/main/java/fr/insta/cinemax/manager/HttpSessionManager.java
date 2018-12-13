@@ -1,10 +1,12 @@
 package fr.insta.cinemax.manager;
 
 import com.sun.istack.internal.Nullable;
-import fr.insta.cinemax.model.CartElement;
+import fr.insta.cinemax.model.Cart;
+import fr.insta.cinemax.model.Ticket;
 import fr.insta.cinemax.model.User;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HttpSessionManager {
@@ -27,17 +29,22 @@ public class HttpSessionManager {
 		session.setAttribute(HttpSessionManager.CURRENT_USER_ATTRIBUTE_NAME, user);
 	}
 
-	public static List<CartElement> getCartFromSession(HttpSession session) {
+	public static Cart getCartFromSession(HttpSession session) {
+
+		Object cart = session.getAttribute(HttpSessionManager.CURRENT_CART_ATTRIBUTE_NAME);
+
+		if (cart == null)
+			return new Cart(new ArrayList<>(), 0.0);
 
 		try {
-			return (List<CartElement>)session.getAttribute(HttpSessionManager.CURRENT_CART_ATTRIBUTE_NAME);
+			return (Cart) cart;
 		} catch (ClassCastException ignored) {}
 
-		return null;
+		return new Cart(new ArrayList<>(), 0.0);
 
 	}
 
-	public static void setCartForSession(HttpSession session, List<CartElement> cart) {
+	public static void setCartForSession(HttpSession session, Cart cart) {
 		session.setAttribute(HttpSessionManager.CURRENT_CART_ATTRIBUTE_NAME, cart);
 	}
 
