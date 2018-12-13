@@ -10,6 +10,9 @@ public class ConnectionManager {
 	private String username;
 	private String password;
 
+	private Connection connection = null;
+	private SQLException exception = null;
+
 	private static ConnectionManager instance;
 
 	public static ConnectionManager getInstance() {
@@ -35,10 +38,17 @@ public class ConnectionManager {
 		this.url = url;
 		this.username = username;
 		this.password = password;
+		try {
+			this.connection = DriverManager.getConnection(this.url, this.username, this.password);
+		} catch (SQLException e) {
+			this.exception = e;
+		}
 	}
 
 	public Connection getConnection() throws SQLException {
-		return DriverManager.getConnection(this.url, this.username, this.password);
+		if (this.exception != null)
+			throw this.exception;
+		return this.connection;
 	}
 
 }

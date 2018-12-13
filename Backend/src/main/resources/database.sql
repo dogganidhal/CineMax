@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS cinemax.room (
 	capacity INT(10) DEFAULT 100
 );
 
-CREATE TABLE IF NOT EXISTS cinemax.movie (
+CREATE TABLE IF NOT EXISTS movie (
 	id INT(10) PRIMARY KEY AUTO_INCREMENT,
 	title VARCHAR(64) NOT NULL,
 	`version` VARCHAR(64) NOT NULL,
@@ -26,12 +26,12 @@ CREATE TABLE IF NOT EXISTS cinemax.movie (
 
 CREATE TABLE IF NOT EXISTS cinemax.ticket (
 	id INT(10) PRIMARY KEY AUTO_INCREMENT,
-	movie_id INT(10) NOT NULL,
+	session_id INT(10) NOT NULL,
 	user_id INT(10) NOT NULL,
 	price FLOAT(10) NOT NULL,
-	created_date TIME NOT NULL,
-	FOREIGN KEY FK_TicketMovie(movie_id)
-	REFERENCES movie(id)
+	created_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+	FOREIGN KEY FK_TicketSession(session_id)
+	REFERENCES session(id)
 	ON UPDATE CASCADE
 	ON DELETE RESTRICT,
 	FOREIGN KEY FK_TicketUser(user_id)
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS cinemax.ticket (
 
 CREATE TABLE IF NOT EXISTS cinemax.session (
 	id INT(10) PRIMARY KEY AUTO_INCREMENT,
-	start_date TIME NOT NULL,
+	start_date DATETIME NOT NULL,
 	movie_id INT(10) NOT NULL,
 	room_id INT(10) NOT NULL,
 	ticket_count INT(10) NOT NULL DEFAULT 0,

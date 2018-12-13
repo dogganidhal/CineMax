@@ -48,4 +48,8 @@ public class HttpSessionManager {
 		session.setAttribute(HttpSessionManager.CURRENT_CART_ATTRIBUTE_NAME, cart);
 	}
 
+	public static void deleteCart(HttpSession session) {
+		session.removeAttribute(HttpSessionManager.CURRENT_CART_ATTRIBUTE_NAME);
+	}
+
 }

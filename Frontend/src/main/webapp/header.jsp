@@ -26,6 +26,9 @@
             <li class="nav-item">
                 <a class="nav-link active" href="/stats">Statistique</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="/tickets">Mes tickets</a>
+            </li>
         </ul>
         <%}%>
     </div>

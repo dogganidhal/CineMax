@@ -62,7 +62,7 @@ public class MovieRepository implements IMovieRepository {
 			e.printStackTrace();
 		}
 
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override

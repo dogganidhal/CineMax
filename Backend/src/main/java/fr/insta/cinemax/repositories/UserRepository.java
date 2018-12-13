@@ -1,6 +1,5 @@
 package fr.insta.cinemax.repositories;
 
-import com.sun.xml.internal.ws.dump.MessageDumping;
 import fr.insta.cinemax.exceptions.AccountNotFoundException;
 import fr.insta.cinemax.exceptions.WrongPasswordException;
 import fr.insta.cinemax.interfaces.IUserRepository;

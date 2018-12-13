@@ -5,7 +5,6 @@ import fr.insta.cinemax.interfaces.ITicketRepository;
 import fr.insta.cinemax.manager.ConnectionManager;
 import fr.insta.cinemax.manager.PriceManager;
 import fr.insta.cinemax.mappers.TicketMapper;
-import fr.insta.cinemax.model.Movie;
 import fr.insta.cinemax.model.Session;
 import fr.insta.cinemax.model.Ticket;
 import fr.insta.cinemax.model.User;
@@ -17,26 +16,24 @@ import java.sql.SQLException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 
 public class TicketRepository implements ITicketRepository {
 
 	@Override
-	public Ticket buyTicket(Integer userId, Integer sessionId) throws NotEnoughSpaceException {
+	public Ticket buyTicket(User user, Session session) {
 
 		try {
 
-			UserRepository userRepository = new UserRepository();
+			Integer userId = user.getId(), sessionId = session.getId();
+
 			SessionRepository sessionRepository = new SessionRepository();
 
-			User user = userRepository.getUserById(userId);
-			Session session = sessionRepository.getSessionById(sessionId);
-
 			Connection connection = ConnectionManager.getInstance().getConnection();
-			String insertStatement = "INSERT INTO ticket (session_id, user_id, price, created) VALUES (?,?,?,?);";
-			PreparedStatement preparedStatement = connection.prepareStatement(insertStatement);
+			String insertStatement = "INSERT INTO ticket (session_id, user_id, price) VALUES (?,?,?);";
+			PreparedStatement preparedStatement = connection
+				.prepareStatement(insertStatement, PreparedStatement.RETURN_GENERATED_KEYS);
 
 			Double price = PriceManager.getInstance().computePriceForUser(user);
 			Date creationDate = Date.from(Instant.now());
@@ -44,16 +41,14 @@ public class TicketRepository implements ITicketRepository {
 			preparedStatement.setInt(1, sessionId);
 			preparedStatement.setInt(2, userId);
 			preparedStatement.setDouble(3, price);
-			preparedStatement.setDate(4, new java.sql.Date(creationDate.getTime()));
 
 			preparedStatement.executeUpdate();
 
 			ResultSet resultSet = preparedStatement.getGeneratedKeys();
 
-
 			if (resultSet.next()) {
 
-				session = sessionRepository.incrementTicketCountOfSession(session, 1);
+				session = sessionRepository.incrementTicketCountOfSession(session);
 
 				return new Ticket(
 					resultSet.getInt(1),
@@ -73,57 +68,6 @@ public class TicketRepository implements ITicketRepository {
 
 	}
 
-	@Override
-	public List<Ticket> buyTickets(Integer userId, Integer sessionId, Integer count) throws NotEnoughSpaceException {
-
-		try {
-
-			UserRepository userRepository = new UserRepository();
-			SessionRepository sessionRepository = new SessionRepository();
-
-			User user = userRepository.getUserById(userId);
-			Session session = sessionRepository.getSessionById(sessionId);
-
-			Connection connection = ConnectionManager.getInstance().getConnection();
-			String insertStatement = "INSERT INTO ticket (session_id, user_id, price, created) VALUES (?,?,?,?);";
-			PreparedStatement preparedStatement = connection.prepareStatement(insertStatement);
-
-			Double price = PriceManager.getInstance().computePriceForUser(user);
-			Date creationDate = Date.from(Instant.now());
-
-			preparedStatement.setInt(1, sessionId);
-			preparedStatement.setInt(2, userId);
-			preparedStatement.setDouble(3, price);
-			preparedStatement.setDate(4, new java.sql.Date(new Date().getTime()));
-
-			preparedStatement.executeUpdate();
-
-			ResultSet resultSet = preparedStatement.getGeneratedKeys();
-			List<Ticket> tickets = new ArrayList<>();
-
-			session = sessionRepository.incrementTicketCountOfSession(session, count);
-
-			while (resultSet.next()) {
-
-				tickets.add(new Ticket(
-					resultSet.getInt(1),
-					session,
-					user,
-					price,
-					creationDate
-				));
-
-			}
-
-			return tickets;
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return null;
-
-	}
 
 	@Override
 	public List<Ticket> ticketsForMovie(Integer movieId) {
@@ -175,7 +119,7 @@ public class TicketRepository implements ITicketRepository {
 			e.printStackTrace();
 		}
 
-		return null;
+		return new ArrayList<>();
 
 	}
 
@@ -196,7 +140,7 @@ public class TicketRepository implements ITicketRepository {
 			List<Ticket> tickets = new ArrayList<>();
 			TicketMapper mapper = new TicketMapper();
 
-			if (resultSet.next()) {
+			while (resultSet.next()) {
 
 				Ticket ticket = mapper.map(resultSet);
 				Integer sessionId = resultSet.getInt("session_id");
@@ -219,7 +163,7 @@ public class TicketRepository implements ITicketRepository {
 			e.printStackTrace();
 		}
 
-		return null;
+		return new ArrayList<>();
 
 	}
 

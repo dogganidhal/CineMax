@@ -1,6 +1,5 @@
 package fr.insta.cinemax.repositories;
 
-import fr.insta.cinemax.exceptions.NotEnoughSpaceException;
 import fr.insta.cinemax.interfaces.ISessionRepository;
 import fr.insta.cinemax.manager.ConnectionManager;
 import fr.insta.cinemax.manager.PriceManager;
@@ -11,6 +10,7 @@ import fr.insta.cinemax.model.Room;
 import fr.insta.cinemax.model.Session;
 import fr.insta.cinemax.model.User;
 
+import javax.xml.transform.Result;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -102,11 +102,11 @@ public class SessionRepository implements ISessionRepository {
 			e.printStackTrace();
 		}
 
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
-	public Session incrementTicketCountOfSession(Session session, Integer tickets) throws NotEnoughSpaceException {
+	public Session incrementTicketCountOfSession(Session session) {
 
 		try {
 
@@ -114,17 +114,19 @@ public class SessionRepository implements ISessionRepository {
 			String updateStatement = "UPDATE session SET ticket_count = ? WHERE id = ?;";
 			PreparedStatement preparedStatement = connection.prepareStatement(updateStatement);
 
-			preparedStatement.setInt(1, session.getTicketCount() + tickets);
+			preparedStatement.setInt(1, session.getTicketCount() + 1);
 			preparedStatement.setInt(2, session.getId());
 
-			if (preparedStatement.execute()) {
+			int affectedRows = preparedStatement.executeUpdate();
+
+			if (affectedRows > 0) {
 
 				return new Session(
 					session.getId(),
 					session.getStartDate(),
 					session.getRoom(),
 					session.getMovie(),
-					session.getTicketCount() + tickets
+					session.getTicketCount() + 1
 				);
 
 			}
