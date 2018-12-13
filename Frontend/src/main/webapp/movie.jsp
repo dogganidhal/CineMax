@@ -47,7 +47,7 @@
                     <td><%= unitPrice %>€</td>
                     <td><%= s.getRoom().getCapacity() - s.getTicketCount() %></td>
                     <td>
-                        <div class="btn-group stepper-view" role="group">
+                        <div id="<%= s.getId()%>" class="btn-group stepper-view" role="group">
                             <button type="button" class="btn btn-primary stepper-view-subtract">-1</button>
                             <div style="margin: auto 16px;"><b class="stepper-view-value">0</b></div>
                             <button type="button" class="btn btn-primary stepper-view-add">+1</button>
@@ -61,6 +61,22 @@
             </table>
         </div>
     </div>
+    <div class="row col-2 offset-md-5">
+        <%
+            if (currentUser != null) {
+        %>
+        <form method="post">
+            <input type="hidden" name="cart" id="cart">
+            <button id="buy-button" type="submit" class="btn btn-primary btn-lg">Mettre dans mon panier</button>
+        </form>
+        <%
+            } else {
+        %>
+        <a href="/auth"><button type="button" class="btn btn-primary btn-lg">Connectez vous pour acheter</button></a>
+        <%
+            }
+        %>
+    </div>
 </div>
 <%@include file="footer.jsp"%>
 <script>
@@ -71,7 +87,7 @@
         let stepperViewSubtractButton = stepperView.querySelector(".stepper-view-subtract");
         let stepperViewAddButton = stepperView.querySelector(".stepper-view-add");
 
-        refreshState(stepperView);
+        refreshStepperState(stepperView);
 
         stepperViewAddButton.onclick = () => {
             incrementStepperValue(stepperView);
@@ -81,7 +97,7 @@
         };
     }
 
-    function refreshState(stepperView) {
+    function refreshStepperState(stepperView) {
         let stepperViewSubtractButton = stepperView.querySelector(".stepper-view-subtract");
         let stepperViewAddButton = stepperView.querySelector(".stepper-view-add");
         let stepperViewValue = stepperView.querySelector(".stepper-view-value");
@@ -97,17 +113,42 @@
             stepperViewAddButton.setAttribute("disabled", undefined);
         else
             stepperViewAddButton.removeAttribute("disabled");
+        refreshCart();
     }
 
     function incrementStepperValue(stepperView) {
         let stepperViewValue = stepperView.querySelector(".stepper-view-value");
         stepperViewValue.innerText++;
-        refreshState(stepperView);
+        refreshStepperState(stepperView);
     }
 
     function decrementStepperValue(stepperView) {
         let stepperViewValue = stepperView.querySelector(".stepper-view-value");
         stepperViewValue.innerText--;
-        refreshState(stepperView);
+        refreshStepperState(stepperView);
     }
+
+    function refreshCart() {
+
+        let cart = [];
+
+        for (let stepperView of stepperViews) {
+
+            let numberOfTickets = parseInt(stepperView.querySelector(".stepper-view-value").innerText);
+            if (numberOfTickets > 0) {
+                cart.push({
+                    movieId: <%=movie.getId()%>,
+                    sessionId: stepperView.id,
+                    numberOfTickets: numberOfTickets
+                });
+            }
+
+        }
+
+        console.log(cart);
+
+        $("#cart").val(JSON.stringify(cart));
+
+    }
+
 </script>

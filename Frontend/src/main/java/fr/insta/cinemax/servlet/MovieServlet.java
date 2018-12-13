@@ -1,9 +1,12 @@
 package fr.insta.cinemax.servlet;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import fr.insta.cinemax.interfaces.IMovieRepository;
 import fr.insta.cinemax.interfaces.ISessionRepository;
 import fr.insta.cinemax.manager.HttpSessionManager;
-import fr.insta.cinemax.manager.PriceManager;
+import fr.insta.cinemax.model.CartElement;
 import fr.insta.cinemax.model.Movie;
 import fr.insta.cinemax.model.Session;
 import fr.insta.cinemax.model.User;
@@ -16,13 +19,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.function.IntFunction;
-import java.util.stream.Collectors;
 
 
 @WebServlet(name = "MovieServlet", urlPatterns = {"/movie"})
@@ -51,4 +49,21 @@ public class MovieServlet extends HttpServlet {
 
 	}
 
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		String serializedCart = request.getParameter("cart");
+		List<CartElement> cart = HttpSessionManager.getCartFromSession(request.getSession());
+		List<CartElement> deserializedCart = new Gson()
+						.fromJson(serializedCart, new TypeToken<List<CartElement>>(){}.getType());
+		if (cart != null)
+			cart.addAll(deserializedCart);
+		else
+			cart = deserializedCart;
+
+		HttpSessionManager.setCartForSession(request.getSession(), cart);
+
+		response.sendRedirect("/");
+
+	}
 }
