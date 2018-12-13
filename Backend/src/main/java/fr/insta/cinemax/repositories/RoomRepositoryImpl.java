@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class RoomRepository implements IRoomRepository {
+public class RoomRepositoryImpl implements IRoomRepository {
 
 	@Override
 	public Room create(Room room) {

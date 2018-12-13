@@ -21,7 +21,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public class TicketRepository implements ITicketRepository {
+public class TicketRepositoryImpl implements ITicketRepository {
 
 	private IUserRepository userRepository = RepositoryFactory.getInstance().createUserRepository();
 	private ISessionRepository sessionRepository = RepositoryFactory.getInstance().createSessionRepository();
@@ -96,8 +96,8 @@ public class TicketRepository implements ITicketRepository {
 			resultSet = preparedStatement.executeQuery();
 
 			TicketMapper mapper = new TicketMapper();
-			SessionRepository sessionRepository = new SessionRepository();
-			UserRepository userRepository = new UserRepository();
+			ISessionRepository sessionRepository = RepositoryFactory.getInstance().createSessionRepository();
+			IUserRepository userRepository = RepositoryFactory.getInstance().createUserRepository();
 
 			List<Ticket> tickets = new ArrayList<>();
 
@@ -139,8 +139,8 @@ public class TicketRepository implements ITicketRepository {
 			preparedStatement.setInt(1, userId);
 
 			ResultSet resultSet = preparedStatement.executeQuery();
-			UserRepository userRepository = new UserRepository();
-			SessionRepository sessionRepository = new SessionRepository();
+			IUserRepository userRepository = RepositoryFactory.getInstance().createUserRepository();
+			ISessionRepository sessionRepository = RepositoryFactory.getInstance().createSessionRepository();
 			List<Ticket> tickets = new ArrayList<>();
 			TicketMapper mapper = new TicketMapper();
 

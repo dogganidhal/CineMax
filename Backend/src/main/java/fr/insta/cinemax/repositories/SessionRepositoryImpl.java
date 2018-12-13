@@ -1,5 +1,7 @@
 package fr.insta.cinemax.repositories;
 
+import fr.insta.cinemax.interfaces.IMovieRepository;
+import fr.insta.cinemax.interfaces.IRoomRepository;
 import fr.insta.cinemax.interfaces.ISessionRepository;
 import fr.insta.cinemax.manager.ConnectionManager;
 import fr.insta.cinemax.manager.PriceManager;
@@ -10,7 +12,6 @@ import fr.insta.cinemax.model.Room;
 import fr.insta.cinemax.model.Session;
 import fr.insta.cinemax.model.User;
 
-import javax.xml.transform.Result;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class SessionRepository implements ISessionRepository {
+public class SessionRepositoryImpl implements ISessionRepository {
 
 	@Override
 	public Session getSessionById(Integer id) {
@@ -35,8 +36,8 @@ public class SessionRepository implements ISessionRepository {
 
 			if (resultSet.next()) {
 
-				MovieRepository movieRepository = new MovieRepository();
-				RoomRepository roomRepository = new RoomRepository();
+				IMovieRepository movieRepository = RepositoryFactory.getInstance().createMovieRepository();
+				IRoomRepository roomRepository = RepositoryFactory.getInstance().createRoomRepository();
 				SessionMapper mapper = new SessionMapper();
 
 				Movie movie = movieRepository.getMovieById(resultSet.getInt("movie_id"));
@@ -76,8 +77,8 @@ public class SessionRepository implements ISessionRepository {
 			SessionMapper mapper = new SessionMapper();
 			List<Session> sessions = new ArrayList<>();
 
-			RoomRepository roomRepository = new RoomRepository();
-			MovieRepository movieRepository = new MovieRepository();
+			IRoomRepository roomRepository = RepositoryFactory.getInstance().createRoomRepository();
+			IMovieRepository movieRepository = RepositoryFactory.getInstance().createMovieRepository();
 
 			while (resultSet.next()) {
 

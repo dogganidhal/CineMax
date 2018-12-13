@@ -12,9 +12,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class MovieRepositoryTest {
+class MovieRepositoryImplTest {
 
-	private MovieRepository repository = new MovieRepository();
+	private MovieRepositoryImpl repository = new MovieRepositoryImpl();
 	private Integer testMovieId;
 	private boolean didCreateTestMovie = false;
 

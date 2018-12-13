@@ -1,5 +1,7 @@
 package fr.insta.cinemax.repositories;
 
+import fr.insta.cinemax.interfaces.IMovieRepository;
+import fr.insta.cinemax.interfaces.IRoomRepository;
 import fr.insta.cinemax.manager.ConnectionManager;
 import fr.insta.cinemax.model.Movie;
 import fr.insta.cinemax.model.Room;
@@ -16,15 +18,15 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SessionRepositoryTest {
+class SessionRepositoryImplTest {
 
-	private SessionRepository repository = new SessionRepository();
+	private SessionRepositoryImpl repository = new SessionRepositoryImpl();
 	private Movie testMovie;
 
 	private void createTestSessions() throws SQLException, ParseException {
 
-		RoomRepository roomRepository = new RoomRepository();
-		MovieRepository movieRepository = new MovieRepository();
+		IRoomRepository roomRepository = RepositoryFactory.getInstance().createRoomRepository();
+		IMovieRepository movieRepository = RepositoryFactory.getInstance().createMovieRepository();
 
 		Room testRoom = roomRepository.create(new Room("Salle 100"));
 		this.testMovie = movieRepository.create(new Movie("Dragon Ball", "VOSTFR", "3d", 123.0));

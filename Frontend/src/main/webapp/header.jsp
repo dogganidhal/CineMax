@@ -21,7 +21,7 @@
         <%if (currentUser != null) {%>
         <ul class="row navbar-nav bd-navbar-nav">
             <li class="nav-item" style="margin-left: 16px;">
-                <a class="nav-link active" href="/cart">Panier</a>
+                <a class="nav-link active" href="/cart">Mon Panier</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link active" href="/stats">Statistique</a>

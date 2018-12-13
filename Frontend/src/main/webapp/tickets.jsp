@@ -9,7 +9,7 @@
 
 <div>
     <div class="col col-4 offset-md-4 border rounded" style="margin-top: 24px; padding: 16px 0px; border-color: darkgray; border-width: 1px">
-        <div style="text-align: center"><h3>Mes Tickets</h3></div>
+        <div class="border-bottom" style="text-align: center; padding-bottom: 12px"><h3>Mes Tickets</h3></div>
         <%
             if (tickets.size() > 0) {
             	Integer index = 0;

@@ -15,9 +15,9 @@ import java.util.Date;
 import java.util.Random;
 
 
-class UserRepositoryTest {
+class UserRepositoryImplTest {
 
-	private UserRepository repository = new UserRepository();
+	private UserRepositoryImpl repository = new UserRepositoryImpl();
 
 	@Test
 	void getUserById() throws ParseException {

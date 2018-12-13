@@ -13,7 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class UserRepository implements IUserRepository {
+public class UserRepositoryImpl implements IUserRepository {
 
 	@Override
 	public User getUserById(Integer id) {

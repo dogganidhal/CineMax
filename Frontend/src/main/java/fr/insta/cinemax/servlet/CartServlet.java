@@ -25,6 +25,12 @@ public class CartServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
 		User user = HttpSessionManager.getUserFromSession(request.getSession());
+
+		if (user == null) {
+			response.sendRedirect("/");
+			return;
+		}
+
 		Cart cart = HttpSessionManager.getCartFromSession(request.getSession());
 
 		try {

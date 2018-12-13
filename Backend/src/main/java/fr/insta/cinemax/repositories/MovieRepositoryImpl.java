@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MovieRepository implements IMovieRepository {
+public class MovieRepositoryImpl implements IMovieRepository {
 
 	@Override
 	public Movie getMovieById(Integer id) {

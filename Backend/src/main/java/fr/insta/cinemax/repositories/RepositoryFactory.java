@@ -11,23 +11,23 @@ public class RepositoryFactory {
 	}
 
 	public IUserRepository createUserRepository() {
-		return new UserRepository();
+		return new UserRepositoryImpl();
 	}
 
 	public IMovieRepository createMovieRepository() {
-		return new MovieRepository();
+		return new MovieRepositoryImpl();
 	}
 
 	public ISessionRepository createSessionRepository() {
-		return new SessionRepository();
+		return new SessionRepositoryImpl();
 	}
 
 	public ITicketRepository createTicketRepository() {
-		return new TicketRepository();
+		return new TicketRepositoryImpl();
 	}
 
-	public IRoomRepository createRoomeRepository() {
-		return new RoomRepository();
+	public IRoomRepository createRoomRepository() {
+		return new RoomRepositoryImpl();
 	}
 
 }
