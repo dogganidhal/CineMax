@@ -111,25 +111,15 @@ public class SessionRepository implements ISessionRepository {
 		try {
 
 			Connection connection = ConnectionManager.getInstance().getConnection();
-			String updateStatement = "UPDATE session SET ticket_count = ? WHERE id = ?;";
+			String updateStatement = "UPDATE session SET ticket_count = ticket_count + 1 WHERE id = ?;";
 			PreparedStatement preparedStatement = connection.prepareStatement(updateStatement);
 
-			preparedStatement.setInt(1, session.getTicketCount() + 1);
-			preparedStatement.setInt(2, session.getId());
+			preparedStatement.setInt(1, session.getId());
 
 			int affectedRows = preparedStatement.executeUpdate();
 
-			if (affectedRows > 0) {
-
-				return new Session(
-					session.getId(),
-					session.getStartDate(),
-					session.getRoom(),
-					session.getMovie(),
-					session.getTicketCount() + 1
-				);
-
-			}
+			if (affectedRows > 0)
+				return this.getSessionById(session.getId());
 
 		} catch (SQLException e) {
 			e.printStackTrace();

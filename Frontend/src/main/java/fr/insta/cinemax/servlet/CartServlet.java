@@ -31,7 +31,7 @@ public class CartServlet extends HttpServlet {
 
 			for (CartElement cartElement: cart.getCartElements()) {
 				for (int index = 0; index < cartElement.getCount(); index++) {
-					Ticket ticket = ticketRepository.buyTicket(user, cartElement.getSession());
+					Ticket ticket = ticketRepository.buyTicket(user.getId(), cartElement.getSession().getId());
 				}
 			}
 

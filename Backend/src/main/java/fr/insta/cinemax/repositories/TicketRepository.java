@@ -1,7 +1,9 @@
 package fr.insta.cinemax.repositories;
 
 import fr.insta.cinemax.exceptions.NotEnoughSpaceException;
+import fr.insta.cinemax.interfaces.ISessionRepository;
 import fr.insta.cinemax.interfaces.ITicketRepository;
+import fr.insta.cinemax.interfaces.IUserRepository;
 import fr.insta.cinemax.manager.ConnectionManager;
 import fr.insta.cinemax.manager.PriceManager;
 import fr.insta.cinemax.mappers.TicketMapper;
@@ -21,14 +23,16 @@ import java.util.List;
 
 public class TicketRepository implements ITicketRepository {
 
+	private IUserRepository userRepository = RepositoryFactory.getInstance().createUserRepository();
+	private ISessionRepository sessionRepository = RepositoryFactory.getInstance().createSessionRepository();
+
 	@Override
-	public Ticket buyTicket(User user, Session session) {
+	public Ticket buyTicket(Integer userId, Integer sessionId) {
 
 		try {
 
-			Integer userId = user.getId(), sessionId = session.getId();
-
-			SessionRepository sessionRepository = new SessionRepository();
+			User user = this.userRepository.getUserById(userId);
+			Session session = this.sessionRepository.getSessionById(sessionId);
 
 			Connection connection = ConnectionManager.getInstance().getConnection();
 			String insertStatement = "INSERT INTO ticket (session_id, user_id, price) VALUES (?,?,?);";
@@ -60,7 +64,7 @@ public class TicketRepository implements ITicketRepository {
 
 			}
 
-		} catch (SQLException e) {
+		} catch (SQLException | NotEnoughSpaceException e) {
 			e.printStackTrace();
 		}
 
