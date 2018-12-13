@@ -13,6 +13,10 @@ public class PriceManager {
 		return PriceManager.instance;
 	}
 
+	public Double getAnonymousPrice() {
+		return 9.99;
+	}
+
 	public Double computePriceForUser(User user) {
 
 		Calendar calendar = Calendar.getInstance();

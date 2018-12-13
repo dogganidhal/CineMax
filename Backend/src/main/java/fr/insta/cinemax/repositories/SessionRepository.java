@@ -140,6 +140,9 @@ public class SessionRepository implements ISessionRepository {
 	@Override
 	public Double getPriceForUser(Integer userId) {
 
+		if (userId == null)
+			return PriceManager.getInstance().getAnonymousPrice();
+
 		try {
 
 			Connection connection = ConnectionManager.getInstance().getConnection();

@@ -19,9 +19,10 @@
             <div class="card" style="margin-left: auto; margin-right: auto; width: 18rem;">
                 <img class="card-img-top" src="https://placeimg.com/180/100/any" alt="Card image cap">
                 <div class="card-body">
-                    <b class="card-title"><%= movie.getTitle() %></b>
-                    <p class="card-text"><%= movie.getVersion() %></p>
-                    <p class="card-text"><%= movie.getDuration() %> minutes</p>
+                    <H4><%= movie.getTitle() %></H4>
+                    <span><b class="card-title"><%= movie.getVersion() %></b></span><br>
+                    <span><b class="card-text"><%= movie.getVision() %></b></span><br>
+                    <span><b class="card-text"><%= movie.getDuration().intValue() %> minutes</b></span><br><br>
                     <a href="<%= "/movie?id=" + movie.getId()%>" class="btn btn-primary">Voir les scéances</a>
                 </div>
             </div>

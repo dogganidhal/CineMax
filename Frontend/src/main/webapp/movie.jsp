@@ -44,22 +44,15 @@
                 %>
                 <tr>
                     <th scope="row"><%= startDate %></th>
-                    <td>
-                        <%
-                            if (currentUser != null) {
-
-                        %>
-                        <%= unitPrice %>€
-                        <%
-                            } else {
-                        %>
-                        <a href="/auth"><button type="button" class="btn btn-primary">Se connecter</button></a>
-                        <%
-                            }
-                        %>
-                    </td>
+                    <td><%= unitPrice %>€</td>
                     <td><%= s.getRoom().getCapacity() - s.getTicketCount() %></td>
-                    <td>+ 1</td>
+                    <td>
+                        <div class="btn-group stepper-view" role="group">
+                            <button type="button" class="btn btn-primary stepper-view-subtract">-1</button>
+                            <div style="margin: auto 16px;"><b class="stepper-view-value">0</b></div>
+                            <button type="button" class="btn btn-primary stepper-view-add">+1</button>
+                        </div>
+                    </td>
                 </tr>
                 <%
                     }
@@ -70,3 +63,51 @@
     </div>
 </div>
 <%@include file="footer.jsp"%>
+<script>
+    // ES6
+    let stepperViews = $(".stepper-view");
+    for (let stepperView of stepperViews) {
+
+        let stepperViewSubtractButton = stepperView.querySelector(".stepper-view-subtract");
+        let stepperViewAddButton = stepperView.querySelector(".stepper-view-add");
+
+        refreshState(stepperView);
+
+        stepperViewAddButton.onclick = () => {
+            incrementStepperValue(stepperView);
+        };
+        stepperViewSubtractButton.onclick = ()  => {
+            decrementStepperValue(stepperView);
+        };
+    }
+
+    function refreshState(stepperView) {
+        let stepperViewSubtractButton = stepperView.querySelector(".stepper-view-subtract");
+        let stepperViewAddButton = stepperView.querySelector(".stepper-view-add");
+        let stepperViewValue = stepperView.querySelector(".stepper-view-value");
+        let value = stepperViewValue.innerText;
+        let remainingSpaces = stepperView.parentNode.previousElementSibling.innerText;
+
+        if (value === "0")
+            stepperViewSubtractButton.setAttribute("disabled", undefined);
+        else
+            stepperViewSubtractButton.removeAttribute("disabled");
+
+        if (parseInt(value) >= parseInt(remainingSpaces))
+            stepperViewAddButton.setAttribute("disabled", undefined);
+        else
+            stepperViewAddButton.removeAttribute("disabled");
+    }
+
+    function incrementStepperValue(stepperView) {
+        let stepperViewValue = stepperView.querySelector(".stepper-view-value");
+        stepperViewValue.innerText++;
+        refreshState(stepperView);
+    }
+
+    function decrementStepperValue(stepperView) {
+        let stepperViewValue = stepperView.querySelector(".stepper-view-value");
+        stepperViewValue.innerText--;
+        refreshState(stepperView);
+    }
+</script>
