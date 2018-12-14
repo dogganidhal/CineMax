@@ -5,8 +5,6 @@ import javafx.util.Pair;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-
 
 public class StatsModel {
 
@@ -28,8 +26,11 @@ public class StatsModel {
 		this.lastWeekProfit = lastWeekProfit;
 	}
 
-	public List<Pair<String, Integer>> getSalesPerDayOfWeek() {
-		return salesPerDayOfWeek;
+	public List<Integer> getSalesPerDayOfWeek() {
+		List<Integer> profits = new ArrayList<>();
+		for (Pair<String, Integer> entry: this.salesPerDayOfWeek)
+			profits.add(entry.getValue());
+		return profits;
 	}
 
 	public List<Double> getLastWeekProfit() {

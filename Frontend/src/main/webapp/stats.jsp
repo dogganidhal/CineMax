@@ -8,16 +8,18 @@
 <div class="container">
     <div class="row">
         <div class="col-sm border rounded" style="padding: 16px 0; margin-top: 16px; margin-left: 16px; border-color: darkgray; border-width: 1px">
-            <div class="border-bottom" style="text-align: center; padding-bottom: 12px"><h3>Chiffre d'affaire</h3></div>
+            <div class="border-bottom" style="text-align: center; padding-bottom: 12px"><h3>Evolution du chiffre d'affaire</h3></div>
             <div>
                 <canvas id="profit-chart" width="400" height="400"></canvas>
             </div>
+            <div style="padding-top: 12px; margin-left: 12px; font-size: xx-small"><p>Sur une semaine *</p></div>
         </div>
         <div class="col-sm border rounded" style="padding: 16px 0; margin-top: 16px; margin-left: 16px; border-color: darkgray; border-width: 1px">
-            <div class="border-bottom" style="text-align: center; padding-bottom: 12px"><h3>Chiffre d'affaire</h3></div>
+            <div class="border-bottom" style="text-align: center; padding-bottom: 12px"><h3>Evolution des ventes</h3></div>
             <div>
                 <canvas id="sales-chart" width="400" height="400"></canvas>
             </div>
+            <div style="padding-top: 12px; margin-left: 12px; font-size: xx-small"><p>Sur une semaine *</p></div>
         </div>
         <div class="col-sm border rounded" style="padding: 16px 0; margin-top: 16px; margin-left: 16px; border-color: darkgray; border-width: 1px">
             <div class="border-bottom" style="text-align: center; padding-bottom: 12px"><h3>Chiffre d'affaire</h3></div>
@@ -35,7 +37,7 @@
         data: {
             labels: <%=stats.getDaysOfWeek()%>,
             datasets: [{
-                label: 'Evolution du chiffre d\'affaire',
+                label: 'Recette',
                 data: <%=stats.getLastWeekProfit()%>,
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
@@ -70,10 +72,10 @@
     let salesChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+            labels: <%= stats.getDaysOfWeek()%>,
             datasets: [{
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
+                data: <%= stats.getSalesPerDayOfWeek()%>,
+                label: 'Tickets',
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
