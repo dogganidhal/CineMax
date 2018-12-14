@@ -30,4 +30,8 @@ public class RepositoryFactory {
 		return new RoomRepositoryImpl();
 	}
 
+	public IStatsRepository createStatsRepository() {
+		return new StatsRepositoryImpl();
+	}
+
 }
