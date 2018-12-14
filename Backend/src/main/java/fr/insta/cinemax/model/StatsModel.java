@@ -20,10 +20,14 @@ public class StatsModel {
 	 * #value: Total profit from tickets sold on that day
 	 */
 	private List<Pair<String, Double>> lastWeekProfit;
+	private List<Pair<User, Integer>> topUsers;
+	private List<Pair<Movie, Double>> bestSellerMovies;
 
-	public StatsModel(List<Pair<String, Integer>> salesPerDayOfWeek, List<Pair<String, Double>> lastWeekProfit) {
+	public StatsModel(List<Pair<String, Integer>> salesPerDayOfWeek, List<Pair<String, Double>> lastWeekProfit, List<Pair<User, Integer>> topUsers, List<Pair<Movie, Double>> bestSellerMovies) {
 		this.salesPerDayOfWeek = salesPerDayOfWeek;
 		this.lastWeekProfit = lastWeekProfit;
+		this.topUsers = topUsers;
+		this.bestSellerMovies = bestSellerMovies;
 	}
 
 	public List<Integer> getSalesPerDayOfWeek() {
@@ -38,6 +42,14 @@ public class StatsModel {
 		for (Pair<String, Double> entry: this.lastWeekProfit)
 			profits.add(entry.getValue());
 		return profits;
+	}
+
+	public List<Pair<User, Integer>> getTopUsers() {
+		return topUsers;
+	}
+
+	public List<Pair<Movie, Double>> getBestSellerMovies() {
+		return bestSellerMovies;
 	}
 
 	public String getDaysOfWeek() {
