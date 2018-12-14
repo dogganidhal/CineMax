@@ -58,7 +58,7 @@ class SessionRepositoryImplTest {
 		assertEquals(sessionsForMovie.get(0).getMovie().getId(), this.testMovie.getId());
 		assertEquals(sessionsForMovie.get(0).getMovie().getTitle(), this.testMovie.getTitle());
 		assertEquals(sessionsForMovie.get(0).getMovie().getVersion(), this.testMovie.getVersion());
-		assertEquals(sessionsForMovie.get(0).getMovie().getVision(), this.testMovie.getVision());
+		assertEquals(sessionsForMovie.get(0).getMovie().getDescription(), this.testMovie.getDescription());
 		assertEquals(sessionsForMovie.get(0).getMovie().getDuration(), this.testMovie.getDuration());
 
 	}

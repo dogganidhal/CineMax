@@ -35,12 +35,6 @@ public class MovieServlet extends HttpServlet {
 		sessions.sort(Comparator.comparing(Session::getStartDate));
 
 		User currentUser = HttpSessionManager.getUserFromSession(request.getSession());
-
-		if (currentUser == null) {
-			response.sendRedirect("/");
-			return;
-		}
-
 		Double unitPrice = currentUser != null ? this.sessionRepository.getPriceForUser(currentUser.getId()) : this.sessionRepository.getPriceForUser(null);
 
 		request.setAttribute("movie", movie);

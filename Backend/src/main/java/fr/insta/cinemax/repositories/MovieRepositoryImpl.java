@@ -71,12 +71,12 @@ public class MovieRepositoryImpl implements IMovieRepository {
 		try {
 
 			Connection connection = ConnectionManager.getInstance().getConnection();
-			String selectStatement = "INSERT INTO movie (title, version, vision, duration) VALUES (?,?,?,?);";
+			String selectStatement = "INSERT INTO movie (title, version, description, duration) VALUES (?,?,?,?);";
 			PreparedStatement preparedStatement = connection.prepareStatement(selectStatement, PreparedStatement.RETURN_GENERATED_KEYS);
 
 			preparedStatement.setString(1, movie.getTitle());
 			preparedStatement.setString(2, movie.getVersion());
-			preparedStatement.setString(3, movie.getVision());
+			preparedStatement.setString(3, movie.getDescription());
 			preparedStatement.setDouble(4, movie.getDuration());
 
 			preparedStatement.executeUpdate();
@@ -88,7 +88,7 @@ public class MovieRepositoryImpl implements IMovieRepository {
 					resultSet.getInt(1),
 					movie.getTitle(),
 					movie.getVersion(),
-					movie.getVision(),
+					movie.getDescription(),
 					movie.getDuration()
 				);
 

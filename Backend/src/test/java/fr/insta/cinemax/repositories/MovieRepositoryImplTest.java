@@ -63,7 +63,7 @@ class MovieRepositoryImplTest {
 
 		assertEquals(movieFromDatabase.getDuration(), Double.valueOf(120.0));
 		assertEquals(movieFromDatabase.getTitle(), "SPIDERMAN");
-		assertEquals(movieFromDatabase.getVision(), "2d");
+		assertEquals(movieFromDatabase.getDescription(), "2d");
 		assertEquals(movieFromDatabase.getVersion(), "VOSTFR");
 
 	}

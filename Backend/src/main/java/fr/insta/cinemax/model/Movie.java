@@ -5,24 +5,24 @@ public class Movie {
 	private Integer id;
 	private String title;
 	private String version;
-	private String vision;
+	private String description;
 	/**
 	 * Duration in minutes
 	 */
 	private Double duration;
 
-	public Movie(Integer id, String title, String version, String vision, Double duration) {
+	public Movie(Integer id, String title, String version, String description, Double duration) {
 		this.id = id;
 		this.title = title;
 		this.version = version;
-		this.vision = vision;
+		this.description = description;
 		this.duration = duration;
 	}
 
 	public Movie(String title, String version, String vision, Double duration) {
 		this.title = title;
 		this.version = version;
-		this.vision = vision;
+		this.description = vision;
 		this.duration = duration;
 	}
 
@@ -38,8 +38,8 @@ public class Movie {
 		return version;
 	}
 
-	public String getVision() {
-		return vision;
+	public String getDescription() {
+		return description;
 	}
 
 	public Double getDuration() {

@@ -21,12 +21,12 @@
             <div style="padding-left: 16px; padding-top: 16px">
                 <H4><%= movie.getTitle() %></H4>
                 <span>Version : <b><%= movie.getVersion() %></b></span><br>
-                <span>Vision : <b><%= movie.getVision() %></b></span><br>
-                <span>Durée : <b><%= movie.getDuration().intValue() %></b></span><br>
+                <span>Durée : <b><%= movie.getDuration().intValue() %> minutes</b></span><br>
+                <span>Synopsis : <b><%= movie.getDescription() %></b></span><br>
             </div>
         </div>
         <div class="col-9">
-            <h4>Prochaines sessions :</h4>
+            <h4>Prochaines sessions :</h4><br>
             <table class="table border rounded">
                 <thead class="thead-light">
                 <tr>

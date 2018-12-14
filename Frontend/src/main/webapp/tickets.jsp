@@ -17,9 +17,10 @@
             		index++;
         %>
         <div class="<%if(index < tickets.size()) {%>border-bottom<%}%>" style="padding: 16px;">
-            <p>Filme : <b><%=ticket.getSession().getMovie().getTitle()%></b></p>
+            <p>Film : <a href="/movie?id=<%=ticket.getSession().getMovie().getId()%>"><b><%=ticket.getSession().getMovie().getTitle()%></b></a></p>
             <p>Séance : <b><%=DateUtils.formatDate(ticket.getSession().getStartDate(), DateUtils.DateFormat.LONG)%></b></p>
             <p>Date d'achat : <b><%=DateUtils.formatDate(ticket.getCreatedDate(), DateUtils.DateFormat.SHORT)%></b></p>
+            <p>Salle : <b><%=ticket.getSession().getRoom().getName()%></b></p>
         </div>
         <%
             }

@@ -24,11 +24,12 @@
                 <a class="nav-link active" href="/cart">Mon Panier</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" href="/stats">Statistique</a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link active" href="/tickets">Mes tickets</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="/stats">Statistique</a>
+            </li>
+
         </ul>
         <%}%>
     </div>

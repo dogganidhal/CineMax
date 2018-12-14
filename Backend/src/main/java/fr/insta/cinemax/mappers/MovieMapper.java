@@ -13,7 +13,7 @@ public class MovieMapper implements IEntityMapper<Movie> {
 			resultSet.getInt("id"),
 			resultSet.getString("title"),
 			resultSet.getString("version"),
-			resultSet.getString("vision"),
+			resultSet.getString("description"),
 			resultSet.getDouble("duration")
 		);
 	}

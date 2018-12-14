@@ -11,7 +11,7 @@ public class SessionMapper implements IEntityMapper<Session> {
 	public Session map(ResultSet resultSet) throws SQLException {
 		return new Session(
 				resultSet.getInt("id"),
-				resultSet.getDate("start_date"),
+				resultSet.getTimestamp("start_date"),
 				null,
 				null,
 				resultSet.getInt("ticket_count")
